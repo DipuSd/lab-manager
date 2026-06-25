@@ -15,7 +15,7 @@ export default function SidebarLink({ linkItems }) {
               key={link.label}
               href={link.href}
               className={`px-3 py-2 rounded-md transition-all flex gap-2 text-lg items-center
-                ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-100"}`}
+                ${isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-100/30 hover:text-white"}`}
             >
               {link.icon}
               {link.label}

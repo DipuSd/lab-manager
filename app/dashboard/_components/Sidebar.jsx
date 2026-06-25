@@ -2,6 +2,8 @@ import { IoFlaskOutline } from "react-icons/io5";
 import { MdOutlineDashboard } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { HiOutlineDocumentReport } from "react-icons/hi";
+import { MdLogout } from "react-icons/md";
+import Link from "next/link";
 import SidebarLink from "./SidebarLink";
 
 const linkByRole = {
@@ -35,7 +37,7 @@ export default function Sidebar() {
   const links = linkByRole[user.role] || [];
   return (
     <>
-      <div className="bg-[#00032F] h-screen w-1/6 p-6  ">
+      <div className="bg-[#00032F] h-screen lg:w-1/6 md:w-1/4 p-6 flex flex-col justify-between">
         {/* logo and nav items container */}
         <div className="flex flex-col gap-15">
           {/* logo section */}
@@ -48,6 +50,17 @@ export default function Sidebar() {
 
           {/* nav items */}
           <SidebarLink linkItems={links} />
+        </div>
+        {/* logout section */}
+        <div className="space-y-4">
+          <hr />
+          <Link
+            href={"/login"}
+            className="flex items-center gap-2 p-4 w-full rounded-lg hover:bg-gray-100/30 cursor-pointer text-red-600"
+          >
+            <MdLogout size={20} />
+            <p className="font-semibold">Logout</p>
+          </Link>
         </div>
       </div>
     </>

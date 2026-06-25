@@ -1,7 +1,84 @@
+import { MdWavingHand } from "react-icons/md";
+import { FiUsers } from "react-icons/fi";
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
+import { FiAlertCircle } from "react-icons/fi";
+import { FaRegCheckCircle } from "react-icons/fa";
+import MetricCards from "./_components/MetricCards";
+import RecentOrdersTable from "./_components/RecentOrdersTable";
 export default function Dashboard() {
+  const userDetails = {
+    userName: "John Doe",
+  };
+  const dashboardMetrics = [
+    {
+      title: "Today\'s patients",
+      result: 24,
+      icon: <FiUsers size={20} />,
+      color: "blue",
+    },
+    {
+      title: "Pending orders",
+      result: 8,
+      icon: <HiOutlineClipboardDocumentList size={20} />,
+      color: "yellow",
+    },
+    {
+      title: "Awaiting review",
+      result: 5,
+      icon: <FiAlertCircle size={20} />,
+      color: "orange",
+    },
+    {
+      title: "Reports ready",
+      result: 11,
+      icon: <FaRegCheckCircle size={20} />,
+      color: "green",
+    },
+  ];
+  const recentOrdersDetails = [
+    {
+      accessionNo: "#ML-2024-001",
+      patient: "Fatima Rahman",
+      test: "CBC",
+      status: "Pending",
+      priority: "STAT",
+    },
+    {
+      accessionNo: "#ML-2024-002",
+      patient: "Karim Hossain",
+      test: "LFT",
+      status: "In progress",
+      priority: "Routine",
+    },
+    {
+      accessionNo: "#ML-2024-003",
+      patient: "Nadia Islam",
+      test: "RFT",
+      status: "Ready",
+      priority: "Routine",
+    },
+  ];
   return (
     <>
-      <div>dashboard placeholder</div>
+      <div className="h-screen bg-[#f1f5f9] text-black p-6 flex flex-col gap-6">
+        {/* welcome message */}
+        <div>
+          <p className="flex items-center gap-2 text-sm text-gray-500 font-semibold">
+            Good morning, {userDetails.userName},{" "}
+            <span>
+              <MdWavingHand size={18} className="text-orange-400" />
+            </span>
+          </p>
+        </div>
+        {/* metric cards */}
+        <div>
+          <MetricCards metricDetails={dashboardMetrics} />
+        </div>
+        {/* recent orders table */}
+        <div>
+          <RecentOrdersTable orders={recentOrdersDetails} />
+        </div>
+      </div>
     </>
   );
 }
