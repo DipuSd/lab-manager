@@ -2,9 +2,9 @@ import { IoFlaskOutline } from "react-icons/io5";
 import { MdOutlineDashboard } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { HiOutlineDocumentReport } from "react-icons/hi";
-import { MdLogout } from "react-icons/md";
-import Link from "next/link";
 import SidebarLink from "./SidebarLink";
+import LogoutButton from "./LogoutButton";
+import { getUser } from "@/lib/userFromCookie";
 
 const linkByRole = {
   admin: [
@@ -30,10 +30,8 @@ const linkByRole = {
     { label: "Samples", href: "/dashboard/samples" },
   ],
 };
-export default function Sidebar() {
-  const user = {
-    role: "admin",
-  };
+export default async function Sidebar() {
+  const user = await getUser();
   const links = linkByRole[user.role] || [];
   return (
     <>
@@ -54,13 +52,7 @@ export default function Sidebar() {
         {/* logout section */}
         <div className="space-y-4">
           <hr />
-          <Link
-            href={"/login"}
-            className="flex items-center gap-2 p-4 w-full rounded-lg hover:bg-gray-100/30 cursor-pointer text-red-600"
-          >
-            <MdLogout size={20} />
-            <p className="font-semibold">Logout</p>
-          </Link>
+          <LogoutButton />
         </div>
       </div>
     </>

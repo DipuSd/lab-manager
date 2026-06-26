@@ -1,5 +1,6 @@
 import { IoFlaskOutline } from "react-icons/io5";
 import LoginForm from "@/components/login/LoginForm";
+import Link from "next/link";
 
 export default function Login() {
   return (
@@ -37,10 +38,14 @@ export default function Login() {
             </div>
             {/* login form */}
             <LoginForm />
-            <div className="text-center">
-              <p className="text-xs text-gray-500">
-                No account? contact your administrator.
-              </p>
+            <div className="text-center text-xs text-gray-500">
+              No account?{" "}
+              <Link
+                href={"/register"}
+                className="text-blue-500 hover:underline hover:decoration-blue-500"
+              >
+                Register now
+              </Link>
             </div>
           </div>
         </div>

@@ -3,19 +3,26 @@
 import { useState } from "react";
 import { MdOutlineEmail } from "react-icons/md";
 import { FiLock, FiEyeOff, FiEye } from "react-icons/fi";
+import { useRouter } from "next/navigation";
+import { loginUser } from "@/app/actions/user.auth.actions";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    console.log({
-      email,
-      password,
-    });
+    const result = await loginUser({ email, password });
+
+    if (!result.success) {
+      setError(result.message);
+      return;
+    }
+    router.push("/dashboard");
   };
 
   return (
@@ -72,6 +79,7 @@ export default function LoginForm() {
         >
           Sign in
         </button>
+        {error && <p className="text-red-500 text-sm"> {error}</p>}
       </form>
     </>
   );
