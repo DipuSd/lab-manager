@@ -3,6 +3,8 @@ import { useState } from "react";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdMailOutline } from "react-icons/md";
 import { FiPhone, FiLock, FiEyeOff, FiEye } from "react-icons/fi";
+import { createUser } from "@/app/actions/user.register.actions";
+import { redirect } from "next/navigation";
 
 export default function RegisterForm() {
   const [fullName, setFullName] = useState("");
@@ -13,10 +15,34 @@ export default function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(fullName, email, phone, role, password, confirmPassword);
+
+    if (password !== confirmPassword) {
+      setError("Password do not match");
+      return;
+    }
+    const result = await createUser({
+      fullName,
+      email,
+      phone,
+      role,
+      password,
+    });
+    if (!result.success) {
+      setError(result.message);
+      return;
+    }
+    setFullName("");
+    setEmail("");
+    setPhone("");
+    setRole("");
+    setPassword("");
+    setConfirmPassword("");
+    setError("");
+    redirect("/login");
   };
 
   return (
@@ -38,6 +64,7 @@ export default function RegisterForm() {
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Enter your full name"
                 className="pl-8 border border-gray-300 rounded-lg outline-none focus:border-blue-500 bg-slate-100 py-1 px-2 w-full"
+                required
               />
             </div>
           </div>
@@ -55,6 +82,7 @@ export default function RegisterForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="doctor@example.com"
                 className="pl-8 border border-gray-300 rounded-lg outline-none focus:border-blue-500 bg-slate-100 py-1 px-2 w-full"
+                required
               />
             </div>
           </div>
@@ -87,6 +115,7 @@ export default function RegisterForm() {
               value={role}
               onChange={(e) => setRole(e.target.value)}
               className="w-full border border-gray-300 rounded-lg outline-none focus:border-blue-500 bg-slate-100 py-[6px] px-2"
+              required
             >
               <option value="" disabled>
                 Select a role
@@ -113,6 +142,7 @@ export default function RegisterForm() {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                required
               />
               <button
                 onClick={() => setShowPassword(!showPassword)}
@@ -139,6 +169,7 @@ export default function RegisterForm() {
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
                 }}
+                required
               />
               <button
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -161,10 +192,15 @@ export default function RegisterForm() {
           >
             Create account
           </button>
-          <button className="w-1/3 rounded-lg border border-gray-300 p-2 hover:bg-slate-100 cursor-pointer">
+          <button
+            onClick={() => redirect("/login")}
+            className="w-1/3 rounded-lg border border-gray-300 p-2 hover:bg-slate-100 cursor-pointer"
+          >
             Cancel
           </button>
         </div>
+        {/* error text */}
+        <p className={`text-red-500 ${error ? "block" : "hidden"}`}>{error}</p>
       </form>
     </>
   );
