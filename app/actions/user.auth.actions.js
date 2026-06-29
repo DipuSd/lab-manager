@@ -38,6 +38,7 @@ export async function loginUser({ email, password }) {
       userId: user._id,
       role: user.role,
       email: user.email,
+      publicID: user.publicId,
     });
 
     cookieStore.set("token", token, {

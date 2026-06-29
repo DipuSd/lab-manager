@@ -1,12 +1,13 @@
 import Sidebar from "./_components/Sidebar";
 import Infobar from "./_components/Infobar";
-
-export default function DashboardLayout({ children }) {
+import { getCurrentUser } from "@/lib/userDataFromDb";
+export default async function DashboardLayout({ children }) {
+  const userDetails = await getCurrentUser("fullName role");
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      <Sidebar userRole={userDetails.role} />
       <div className="flex flex-col flex-1">
-        <Infobar />
+        <Infobar userName={userDetails.fullName} />
         <main>{children}</main>
       </div>
     </div>

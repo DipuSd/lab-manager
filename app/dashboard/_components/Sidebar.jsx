@@ -30,7 +30,7 @@ const linkByRole = {
     { label: "Samples", href: "/dashboard/samples" },
   ],
 };
-export default async function Sidebar() {
+export default async function Sidebar({ userRole }) {
   const user = await getUser();
   const links = linkByRole[user.role] || [];
   return (

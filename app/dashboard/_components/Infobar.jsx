@@ -2,14 +2,11 @@
 import { useState } from "react";
 import { HiOutlineBell } from "react-icons/hi";
 import { usePathname } from "next/navigation";
-export default function Infobar() {
+export default function Infobar({ userName }) {
   const [newNotification, setNewNotification] = useState(true);
   const pathName = usePathname();
   const pageName = pathName.split("/").pop();
   const infoPageName = pageName.charAt(0).toUpperCase() + pageName.slice(1);
-  const userDetails = {
-    userName: "John Doe",
-  };
 
   return (
     <>
@@ -36,7 +33,7 @@ export default function Infobar() {
           </div>
           {/* profile name */}
           <div>
-            <h1 className="text-gray-500 text-sm">{userDetails.userName}</h1>
+            <h1 className="text-gray-500 text-sm">{userName}</h1>
           </div>
         </div>
       </div>

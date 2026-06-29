@@ -20,7 +20,7 @@ export async function middleware(req) {
   if (isLoginPage && token) {
     const user = await verifyToken(token);
     if (user) {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
+      return NextResponse.redirect(new URL(`/dashboard`, req.url));
     }
   }
   return NextResponse.next();

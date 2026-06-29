@@ -1,4 +1,5 @@
 import mongoose, { Schema, models, model } from "mongoose";
+import { nanoid } from "nanoid";
 
 const UserSchema = new Schema(
   {
@@ -10,7 +11,6 @@ const UserSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
       lowercase: true,
       trim: true,
     },
@@ -27,6 +27,11 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    publicId: {
+      type: String,
+      required: true,
+      default: () => nanoid(12),
+    },
   },
   {
     timestamps: true,
@@ -34,6 +39,7 @@ const UserSchema = new Schema(
 );
 
 UserSchema.index({ email: 1 }, { unique: true });
+UserSchema.index({ publicId: 1 }, { unique: true });
 const User = models.User || model("User", UserSchema);
 
 export default User;

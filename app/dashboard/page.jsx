@@ -5,10 +5,9 @@ import { FiAlertCircle } from "react-icons/fi";
 import { FaRegCheckCircle } from "react-icons/fa";
 import MetricCards from "./_components/MetricCards";
 import RecentOrdersTable from "./_components/RecentOrdersTable";
-export default function Dashboard() {
-  const userDetails = {
-    userName: "John Doe",
-  };
+import { getCurrentUser } from "@/lib/userDataFromDb";
+export default async function Dashboard() {
+  const userDetails = await getCurrentUser("fullName");
   const dashboardMetrics = [
     {
       title: "Today\'s patients",
@@ -64,7 +63,7 @@ export default function Dashboard() {
         {/* welcome message */}
         <div>
           <p className="flex items-center gap-2 text-sm text-gray-500 font-semibold">
-            Good morning, {userDetails.userName},{" "}
+            Good morning, {userDetails.fullName},
             <span>
               <MdWavingHand size={18} className="text-orange-400" />
             </span>
