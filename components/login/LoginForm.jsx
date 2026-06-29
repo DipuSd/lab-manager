@@ -41,6 +41,7 @@ export default function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="doctor@example.com"
               className="w-full pl-8 outline-none bg-slate-100 border border-gray-300 py-1 px-30 focus:border-blue-500 rounded-md"
+              required
             />
           </div>
         </div>
@@ -59,6 +60,7 @@ export default function LoginForm() {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              required
             />
             <button
               onClick={() => setShowPassword(!showPassword)}

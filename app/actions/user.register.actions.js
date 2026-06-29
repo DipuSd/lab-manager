@@ -3,6 +3,18 @@
 import { connectDB } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 import User from "@/models/User";
+import z, { success } from "zod";
+
+const passwordSchema = z
+  .string()
+  .min(8, "Password must be at least 8 characters long")
+  .regex(/[a-z]/, "Must include a lowercase letter")
+  .regex(/[A-z]/, "Must include an uppercase letter")
+  .regex(/[\d]/, "Must include a number")
+  .regex(
+    /[!@#$%^&*()_\-+=[\]{};':"\\|,.<>/?`~]/,
+    "Must include a special character",
+  );
 
 export async function createUser(data) {
   try {
@@ -16,9 +28,9 @@ export async function createUser(data) {
       };
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailSchemaCheck = z.email().safeParse(email);
 
-    if (!email || !emailRegex.test(email)) {
+    if (!email || !emailSchemaCheck.success) {
       return {
         success: false,
         message: "Invalid email address",
@@ -35,6 +47,13 @@ export async function createUser(data) {
       return {
         success: false,
         message: "Password required",
+      };
+    }
+    const passwordCheck = passwordSchema.safeParse(password);
+    if (!passwordCheck.success) {
+      return {
+        success: false,
+        message: passwordCheck.error.issues[0].message,
       };
     }
     // connect to db or reuse connection

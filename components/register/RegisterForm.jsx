@@ -15,7 +15,22 @@ export default function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] =
+    useState(false);
   const [error, setError] = useState("");
+
+  const passowrdChecks = {
+    length: password.length >= 8,
+    lowercase: /[a-z]/.test(password),
+    uppercase: /[A-Z]/.test(password),
+    number: /\d/.test(password),
+    special: /[!@#$%^&*()_\-+=[\]{};':"\\|,.<>/?`~]/.test(password),
+  };
+  const passwordMatch =
+    confirmPassword.length > 0 && password === confirmPassword;
+
+  const isValidPassword = Object.values(passowrdChecks).every(Boolean);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -142,6 +157,8 @@ export default function RegisterForm() {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                onFocus={() => setIsPasswordFocused(true)}
+                onBlur={() => setIsPasswordFocused(false)}
                 required
               />
               <button
@@ -169,6 +186,12 @@ export default function RegisterForm() {
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
                 }}
+                onFocus={() => {
+                  setIsConfirmPasswordFocused(true);
+                }}
+                onBlur={() => {
+                  setIsConfirmPasswordFocused(false);
+                }}
                 required
               />
               <button
@@ -187,8 +210,9 @@ export default function RegisterForm() {
         {/* buttons row */}
         <div className="flex items-center gap-2">
           <button
+            disabled={!(isValidPassword && passwordMatch)}
             type="submit"
-            className="w-full rounded-lg bg-blue-500 p-2 text-white hover:bg-blue-700 cursor-pointer"
+            className="w-full rounded-lg bg-blue-500 p-2 text-white hover:bg-blue-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Create account
           </button>
@@ -199,6 +223,29 @@ export default function RegisterForm() {
             Cancel
           </button>
         </div>
+        {/* password check section */}
+        {isPasswordFocused && (
+          <ul className="mt-2 text-sm space-y-1">
+            <li>{passowrdChecks.length ? "✅" : "❌"} At least 8 characters</li>
+            <li>
+              {passowrdChecks.lowercase ? "✅" : "❌"} One lowercase letter
+            </li>
+            <li>
+              {passowrdChecks.uppercase ? "✅" : "❌"} One uppercase letter
+            </li>
+            <li>{passowrdChecks.number ? "✅" : "❌"} One number</li>
+            <li>
+              {passowrdChecks.special ? "✅" : "❌"} One special character
+            </li>
+          </ul>
+        )}
+        {/*
+         confirm password check section */}
+        {isConfirmPasswordFocused && (
+          <ul className="mt-2 text-sm space-y-1">
+            <li>{passwordMatch ? "✅" : "❌"} confirm passowrd match</li>
+          </ul>
+        )}
         {/* error text */}
         <p className={`text-red-500 ${error ? "block" : "hidden"}`}>{error}</p>
       </form>

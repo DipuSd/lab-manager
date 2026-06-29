@@ -21,14 +21,15 @@ export default function Register() {
           {/* horizontal line */}
           <hr className="text-gray-300" />
           {/* info card */}
-          <div className="flex bg-blue-100 border-l-2 border-blue-500 p-2 text-blue-500 items-center justify-center gap-2">
+          <div className="flex bg-blue-100 border-l-2 border-blue-500 p-2 text-blue-500  gap-2">
             <div>
               <IoMdInformationCircleOutline size={19} />
             </div>
             <div>
-              <p className="text-sm">
-                Staff accounts are created by Administrator only. Ensure all
-                details are accurate before submitting{" "}
+              <p className="text-sm ">
+                Password must contain atleast one lowercase character, on
+                uppercase character, one digit,
+                <br /> one special character and minimum length of 8 character.
               </p>
             </div>
           </div>
