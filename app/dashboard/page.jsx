@@ -6,8 +6,29 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import MetricCards from "./_components/MetricCards";
 import RecentOrdersTable from "./_components/RecentOrdersTable";
 import { getCurrentUser } from "@/lib/userDataFromDb";
+import { getDashMetrics } from "@/lib/dashboardMetricData";
+import { getRecentOrders } from "@/lib/recentOrderData";
 export default async function Dashboard() {
-  const userDetails = await getCurrentUser("fullName");
+  const [userDetails, dashboardMetricData, recentOrderData] = await Promise.all(
+    [getCurrentUser("fullName"), getDashMetrics(), getRecentOrders()],
+  );
+  const iconMaps = {
+    FiUsers,
+    HiOutlineClipboardDocumentList,
+    FiAlertCircle,
+    FaRegCheckCircle,
+  };
+  const retrievedDashMetrics = dashboardMetricData?.dashboardMetrics.map(
+    (metric) => {
+      const Icon = iconMaps[metric.icon];
+
+      return {
+        ...metric,
+        icon: <Icon size={20} />,
+      };
+    },
+  );
+
   const dashboardMetrics = [
     {
       title: "Today\'s patients",
@@ -34,6 +55,8 @@ export default async function Dashboard() {
       color: "green",
     },
   ];
+  const dashMetricProp = retrievedDashMetrics || dashboardMetrics;
+
   const recentOrdersDetails = [
     {
       accessionNo: "#ML-2024-001",
@@ -57,6 +80,8 @@ export default async function Dashboard() {
       priority: "Routine",
     },
   ];
+  const recentOrdersProp =
+    recentOrderData.recentOrdersDetails || recentOrdersDetails;
   return (
     <>
       <div className="h-screen bg-[#f1f5f9] text-black p-6 flex flex-col gap-6">
@@ -71,11 +96,11 @@ export default async function Dashboard() {
         </div>
         {/* metric cards */}
         <div>
-          <MetricCards metricDetails={dashboardMetrics} />
+          <MetricCards metricDetails={dashMetricProp} />
         </div>
         {/* recent orders table */}
         <div>
-          <RecentOrdersTable orders={recentOrdersDetails} />
+          <RecentOrdersTable orders={recentOrdersProp} />
         </div>
       </div>
     </>

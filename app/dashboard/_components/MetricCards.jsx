@@ -1,4 +1,18 @@
 export default function MetricCards({ metricDetails }) {
+  const metricStyles = {
+    blue: {
+      icon: "bg-blue-100 text-blue-500",
+    },
+    yellow: {
+      icon: "bg-yellow-100 text-yellow-500",
+    },
+    orange: {
+      icon: "bg-orange-100 text-orange-500",
+    },
+    green: {
+      icon: "bg-green-100 text-green-500",
+    },
+  };
   return (
     <>
       <div className="flex items-center gap-2 flex-wrap">
@@ -9,7 +23,7 @@ export default function MetricCards({ metricDetails }) {
           >
             {/* icon section */}
             <div
-              className={`p-2 rounded-lg bg-${detail.color}-100 text-${detail.color}-500 w-fit`}
+              className={`p-2 rounded-lg ${metricStyles[detail.color].icon} w-fit`}
             >
               {detail.icon}
             </div>

@@ -200,7 +200,7 @@ export default function RegisterForm() {
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
               >
-                {showPassword ? (
+                {showConfirmPassword ? (
                   <FiEyeOff className="text-lg" />
                 ) : (
                   <FiEye className="text-lg" />

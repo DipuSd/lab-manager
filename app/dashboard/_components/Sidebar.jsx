@@ -4,7 +4,6 @@ import { FaRegUser } from "react-icons/fa";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import SidebarLink from "./SidebarLink";
 import LogoutButton from "./LogoutButton";
-import { getUser } from "@/lib/userFromCookie";
 
 const linkByRole = {
   admin: [
@@ -30,9 +29,8 @@ const linkByRole = {
     { label: "Samples", href: "/dashboard/samples" },
   ],
 };
-export default async function Sidebar({ userRole }) {
-  const user = await getUser();
-  const links = linkByRole[user.role] || [];
+export default function Sidebar({ userRole }) {
+  const links = linkByRole[userRole] || [];
   return (
     <>
       <div className="bg-[#00032F] h-screen lg:w-1/6 md:w-1/4 p-6 flex flex-col justify-between">
