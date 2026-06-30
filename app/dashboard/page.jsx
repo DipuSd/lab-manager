@@ -81,7 +81,7 @@ export default async function Dashboard() {
     },
   ];
   const recentOrdersProp =
-    recentOrderData.recentOrdersDetails || recentOrdersDetails;
+    recentOrderData?.recentOrdersDetails || recentOrdersDetails;
   return (
     <>
       <div className="h-screen bg-[#f1f5f9] text-black p-6 flex flex-col gap-6">
